@@ -6,18 +6,23 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      string: "Hello Quan",
-      monsters: []
+      searchField: "",
+      monsters: [],
     }
   }
-  onClickHandler = () => {
-    this.setState({string: "Hello React"})
+
+  onChangeTextField = (event) => {
+    this.setState({searchField: event.target.value})
   }
   render() {
+    const {monsters, searchField} = this.state;
+    const searchMonsters = monsters.filter(monster => {
+      return monster.name.toLowerCase().search(searchField.toLowerCase()) !== -1
+    })
     return (
-      <div>
-      <input placeholder="Search monster"  />
-        <CardList monsters={this.state.monsters} />
+      <div className="App">
+        <input placeholder="Search monster" onChange={(e) => this.onChangeTextField(e)} />
+        <CardList monsters={searchMonsters} />
         
       </div>
     )
